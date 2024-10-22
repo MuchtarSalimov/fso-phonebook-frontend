@@ -51,7 +51,15 @@ const App = () => {
 
             sendNotification('success', `Updated ${ newName }`)
           })
-          .catch(() => sendNotification('error', `Information of ${ newName } has already been removed from the server`))
+          .catch((error) => {
+            if ( error.response.data.error.includes('Validation failed: name:') ) {
+              sendNotification('error', `Person ${ error.response.data.error }`)
+            } else if ( error.response.data.error.includes('Validation failed: number:') ) {
+              sendNotification('error', `Number ${ error.response.data.error }`)
+            } else {
+              sendNotification('error', `Failed to add ${ newPerson.name }`)
+            }
+          })
         }
 
         setNewName('')
