@@ -68,8 +68,10 @@ const App = () => {
           sendNotification('success', `Added ${ newPerson.name }`)
         })
         .catch((error) => {
-          if ( error.response.data.error.includes('Validation failed: name: Path `name`') ) {
+          if ( error.response.data.error.includes('Validation failed: name:') ) {
             sendNotification('error', `Person ${ error.response.data.error }`)
+          } else if ( error.response.data.error.includes('Validation failed: number:') ) {
+            sendNotification('error', `Number ${ error.response.data.error }`)
           } else {
             sendNotification('error', `Failed to add ${ newPerson.name }`)
           }
