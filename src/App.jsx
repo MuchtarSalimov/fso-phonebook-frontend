@@ -91,8 +91,11 @@ const App = () => {
       // delete person from json server, then locally
       personService
         .deletePerson(person.id)
-        .then(deletedPerson => {
-          setPersons(persons.filter((person) => person.id !== deletedPerson.id))
+        .then(deletedPersonId => {
+          console.log('persons before: ', persons)
+          console.log('deletedPersonId', deletedPersonId)
+          setPersons(persons.filter((person) => person.id !== deletedPersonId ))
+          console.log('personsAfter', persons)
           sendNotification('success', `Deleted ${ person.name }`)
         })
         .catch(() => sendNotification('error', `Failed to delete ${ person.name }`))
