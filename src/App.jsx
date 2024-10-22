@@ -67,7 +67,13 @@ const App = () => {
           setPersons(persons.concat(createdPerson))
           sendNotification('success', `Added ${ newPerson.name }`)
         })
-        .catch(() => sendNotification('error', `Failed to add ${ newPerson.name }`))
+        .catch((error) => {
+          if ( error.response.data.error.includes('Validation failed: name: Path `name`') ) {
+            sendNotification('error', `Person ${ error.response.data.error }`)
+          } else {
+            sendNotification('error', `Failed to add ${ newPerson.name }`)
+          }
+        })
 
       setNewName('')
       setNewNumber('')
